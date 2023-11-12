@@ -1,95 +1,129 @@
 package main;
 
 
-import java.util.ArrayList;
 
 public class Table {
   
-  private ArrayList<Node> startCourses = new ArrayList<Node>();
-  private ArrayList<Node> startStudents = new ArrayList<Node>();
 
+  private Linked_list startCourses = new Linked_list();
+  private Linked_list startStudents = new Linked_list();
   
   public Table() {
    
   }
   
-public void addCell(int student, int course) {
+public void addCell(String student, String course) {
 	   Node cell = new Node(student, course);
-	   int index = -1;
-	   for(int i =0;i<startCourses.size();i++) {
-	     if(startCourses.get(i).course == course) {
-	       index = i;
-	       break;
-	     }
+	   boolean isPresent = false;
+	   Node i = startCourses.getHead();
+	   if(i!=null) {
+	     while(i.getNext() != null) {
+           if(i.getCourse() == course) {
+             isPresent = true;
+             break;
+           }
+           i=i.getNext();
+       }
+       if(i.getCourse() == course) {
+         isPresent = true;
+       }
+       
 	   }
-	   if(index != -1) {
-		   Node i = startCourses.get(index);
-		   while(i.nextCourse != null) {
-			   i = i.nextCourse;
+	   if(isPresent) {
+		   while(i.getNextStudent() != null) {
+			   i = i.getNextStudent();
 		   }
 		  i.setNextStudent(cell);
+		  
+		  
 	   }else {
 	     startCourses.add(cell);
 	   }
-	   index = -1;
-	   for(int i =0;i<startStudents.size();i++) {
-	     if(startStudents.get(i).student == student) {
-	       index = i;
-	       break;
-	     }
-	   }
-	   if(index != -1) {
-		   Node i = startStudents.get(index);
-		   while(i.nextStudent != null) {
-			   i = i.nextStudent;
-		   }
-		  i.setNextCourse(cell);
-
-	   }else {
-	     startStudents.add(cell);
-
-	   }
+	   isPresent = false;
+	   i = startStudents.getHead();
+	   if(i!=null) {
+         while(i.getNext() != null) {
+           if(i.getStudent() == student) {
+             isPresent = true;
+             break;
+           }
+           i=i.getNext();
+       }
+       if(i.getStudent() == student) {
+         isPresent = true;
+       }
+       
+       }
+       if(isPresent) {
+           while(i.getNextCourse() != null) {
+               i = i.getNextCourse();
+           }
+          i.setNextCourse(cell);
+          
+       }else {
+         startStudents.add(cell);
+       }
 	   
 }
 
 
- public void showStudentCourses(int student) {
+ public void showStudentCourses(String student) {
    
-   int index = -1;
-   for(int i =0;i<startStudents.size();i++) {
-     if(startStudents.get(i).student == student) {
-	   index = i;
-	   break;
-	 }
+   boolean isPresent = false;
+   Node i = startStudents.getHead();
+   if(i!=null) {
+     while(i.getNext() != null) {
+       if(i.getStudent() == student) {
+         isPresent = true;
+         break;
+       }
+       i=i.getNext();
    }
-   if(index != -1) {
-     Node i = startStudents.get(index);
-     while (i.nextCourse != null) {
-       System.out.println(i.course);
-       i = i.nextCourse;
+   if(i.getStudent() == student) {
+     isPresent = true;
+   }
+   
+   }
+   if(isPresent) {
+     System.out.println("-------------------------------------------------------------------\n"
+         + student.toUpperCase()+" courses are :");
+     while (i.getNextCourse() != null) {
+       System.out.println(i.getCourse().toUpperCase());
+       i = i.getNextCourse();
      }
-     System.out.println(i.course);
+     System.out.println(i.getCourse().toUpperCase());
+     System.out.println("-------------------------------------------------------------------");
    }else {
      System.out.println("Student Not found");
    }
 	
  }
  
- public void showCourseStudents(int course) {
-   int index = -1;
-   for(int i =0;i<startCourses.size();i++) {
-     if(startCourses.get(i).course == course) {
-       index = i;
-       break;
-     }
+ public void showCourseStudents(String course) {
+   boolean isPresent = false;
+   Node i = startCourses.getHead();
+   if(i!=null) {
+     while(i.getNext() != null) {
+       if(i.getCourse() == course) {
+         isPresent = true;
+         break;
+       }
+	   i=i.getNext();
    }
-   if(index != -1) {
-     Node i = startCourses.get(index);
-     while (i.nextStudent != null) {
-       System.out.println(i.student);
-       i = i.nextStudent;
+   if(i.getCourse() == course) {
+     isPresent = true;
+   }
+   
+   }
+   if(isPresent) {
+     System.out.println("-------------------------------------------------------------------\n"
+			+ course.toUpperCase()+" students are :");
+     while (i.getNextStudent() != null) {
+       System.out.println(i.getStudent().toUpperCase());
+       i = i.getNextStudent();
      }
-     System.out.println(i.student);
+     System.out.println(i.getStudent().toUpperCase());
+     System.out.println("-------------------------------------------------------------------");
    }else {
      System.out.println("Course Not found");
    }
